@@ -1,11 +1,15 @@
 package userrouter
 
-import "github.com/gin-gonic/gin"
+import (
+	userhandler "go_jichu/internal/handlers/userHandler"
 
-func registerUserRouter(r *gin.Engine) {
+	"github.com/gin-gonic/gin"
+)
+
+func RegisterUserRouter(r *gin.Engine) {
 	user := r.Group("/user")
 	{
-		user.POST("/register")
+		user.POST("/register", userhandler.RegisterHandler)
 	}
 
 }
