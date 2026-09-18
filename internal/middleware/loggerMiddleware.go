@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"time"
 
 	utils "go_jichu/internal/utils"
