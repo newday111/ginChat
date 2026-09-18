@@ -5,6 +5,7 @@ import (
 	inithandle "go_jichu/initHandle"
 
 	"go_jichu/internal/middleware"
+	"go_jichu/internal/routers"
 	utils "go_jichu/internal/utils"
 
 	"github.com/gin-gonic/gin"
@@ -36,5 +37,8 @@ func main() {
 		middleware.LoggerMiddleware(),
 		middleware.RecoveryMiddleware(),
 	)
+
+	routers.RegisterAllRouter(server)
+
 	server.Run(":8080")
 }
