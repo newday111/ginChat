@@ -34,6 +34,7 @@ func main() {
 	server := gin.New()
 	server.Use(
 		middleware.LoggerMiddleware(),
+		middleware.RecoveryMiddleware(),
 	)
 	server.Run(":8080")
 }
