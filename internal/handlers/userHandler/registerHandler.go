@@ -12,6 +12,7 @@ import (
 type registerUserStruct struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
 }
 
 func RegisterHandler(c *gin.Context) {
@@ -25,4 +26,5 @@ func RegisterHandler(c *gin.Context) {
 		response.Error(c, response.ParamErrorCode, "参数错误")
 		return
 	}
+
 }
