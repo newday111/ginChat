@@ -11,8 +11,8 @@ func main() {
 	cfg, err := conf.LoadConfig(configFilePath)
 	if err != nil {
 		panic(err)
-	}
 
+	}
 	inithandle.InitGinModel(cfg)
 
 	// // 可以区分线上或者是线下环境
