@@ -8,7 +8,8 @@ import (
 
 type ConfigStruct struct {
 	App struct {
-		Env string `yaml:"env"`
+		Env     string `yaml:"env"`
+		LogPath string `yaml:"logPath"`
 	} `yaml:"app"`
 }
 
