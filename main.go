@@ -4,6 +4,9 @@ import (
 	"go_jichu/conf"
 	inithandle "go_jichu/initHandle"
 
+	"go_jichu/internal/middleware"
+	utils "go_jichu/internal/utils"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,11 +20,20 @@ func main() {
 
 	}
 
+	//	程序结束防止没有落盘日志丢失
+	defer utils.Sync()
+
+	if err := utils.InitLogger(cfg); err != nil {
+		panic(err)
+	}
+
 	// 初始化gin环境
 	inithandle.InitGinModel(cfg)
 
 	// 可以区分线上或者是线下环境
-	server := gin.Default()
-
+	server := gin.New()
+	server.Use(
+		middleware.LoggerMiddleware(),
+	)
 	server.Run(":8080")
 }
