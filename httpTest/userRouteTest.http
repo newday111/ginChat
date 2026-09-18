@@ -3,6 +3,14 @@ POST http://localhost:8080/user/register
 Content-Type: application/json
 
 {
-    "username": "1232",
-    "password": "234324"
+    "username1": "1232",
+    "password1": "234324"
+}
+
+### 注册用户发送验证码
+POST http://localhost:8080/email/register/code
+Content-Type: application/json
+
+{
+    "email": "1750930322@qq.com",
 }
