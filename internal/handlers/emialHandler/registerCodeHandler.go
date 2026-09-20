@@ -37,9 +37,21 @@ func RegisterCodeHandler(c *gin.Context) {
 	//	进行go协程的验证码发送
 
 	utils.EmailPool.Submit(func() {
-		utils.EmailSender.SendEmail(registerCodeRep.Email, registerCode)
+		err = utils.EmailSender.SendEmail(registerCodeRep.Email, registerCode)
+		if err != nil {
+			utils.AccessLog.Error("send register email result message: ",
+				zap.String("path", c.Request.URL.Path),
+				zap.Error(err),
+			)
+		} else {
+			utils.AccessLog.Info("send register code success",
+				zap.String("path", c.Request.URL.Path),
+				zap.String("register code email result", "success"),
+			)
+		}
+
 	})
 
-	// response.Success(c)
+	response.Success(c, "")
 
 }
