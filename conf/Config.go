@@ -11,6 +11,14 @@ type ConfigStruct struct {
 		Env     string `yaml:"env"`
 		LogPath string `yaml:"logPath"`
 	} `yaml:"app"`
+
+	SMTP struct {
+		Host     string `yaml:"host"`
+		Port     string `yaml:"port"`
+		Username string `yaml:"username"`
+		Password string `yaml:"password"`
+		From     string `yaml:"from"`
+	}
 }
 
 func LoadConfig(configFilePath string) (*ConfigStruct, error) {
