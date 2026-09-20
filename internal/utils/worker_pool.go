@@ -9,6 +9,13 @@ type WorkerPool struct {
 	wg        sync.WaitGroup
 }
 
+// 全局邮件协程池
+var EmailPool *WorkerPool
+
+func InitWorkerPool(xieChengNumber int, cacheNumber int) {
+	EmailPool = NewWorkerPool(xieChengNumber, cacheNumber)
+}
+
 func NewWorkerPool(workerCount, queueSize int) *WorkerPool {
 	pool := &WorkerPool{
 		taskQueue: make(chan Task, queueSize),
