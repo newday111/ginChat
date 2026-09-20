@@ -45,7 +45,7 @@ func (e *emailConfig) SendEmail(toEmail string, code string) error {
 		return fmt.Errorf("set to email failed: %w", err)
 	}
 
-	msg.Subject("注册验证码")
+	msg.Subject("风花雪月注册验证码")
 
 	msg.SetBodyString(
 		mail.TypeTextHTML,
