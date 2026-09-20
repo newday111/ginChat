@@ -1,3 +1,10 @@
 app:
   env: dev
   logPath: D:\\log
+
+smtp:
+  host: "smtp.qq.com"
+  port: 465
+  username: "1750930322@qq.com"
+  password: ""
+  from: "1750930322@qq.com"
