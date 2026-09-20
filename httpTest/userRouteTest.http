@@ -1,5 +1,5 @@
 ### 注册用户
-POST http://localhost:8080/user/register
+POST http://localhost:8081/user/register
 Content-Type: application/json
 
 {
@@ -8,9 +8,9 @@ Content-Type: application/json
 }
 
 ### 注册用户发送验证码
-POST http://localhost:8080/email/register/code
+POST http://localhost:8081/email/register/code
 Content-Type: application/json
 
 {
-    "email": "1750930322@qq.com",
+    "email": "1750930322@qq.com"
 }
