@@ -29,8 +29,6 @@ func (e *emailConfig) SendEmail(toEmail string, code string) error {
 		mail.WithPassword(e.emailConfig.SMTP.Password),
 	)
 
-	fmt.Println(e.emailConfig.SMTP.From)
-
 	if err != nil {
 		return fmt.Errorf("create email stmp client failed: %w", err)
 	}
