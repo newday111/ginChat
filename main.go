@@ -28,6 +28,9 @@ func main() {
 		panic(err)
 	}
 
+	utils.InitWorkerPool(10, 1000)
+	utils.InitEmailConfig(cfg)
+
 	// 初始化gin环境
 	inithandle.InitGinModel(cfg)
 
