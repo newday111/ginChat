@@ -46,7 +46,7 @@ func RegisterCodeHandler(c *gin.Context) {
 		} else {
 			utils.AccessLog.Info("send register code success",
 				zap.String("path", c.Request.URL.Path),
-				zap.String("register code email result", "success"),
+				zap.String("register code email result", fmt.Sprintf("%s email send code success", registerCodeRep.Email)),
 			)
 		}
 
