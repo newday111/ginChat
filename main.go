@@ -36,7 +36,7 @@ func main() {
 	// 初始化redis链接
 	err = redisdb.InitRedisConn(cfg)
 	if err != nil {
-		utils.AccessLog.Error("init redis connection failed",
+		utils.ErrorLog.Error("init redis connection failed",
 			zap.String("redis connection", "failed"),
 		)
 		return
