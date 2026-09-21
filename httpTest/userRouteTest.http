@@ -4,7 +4,8 @@ Content-Type: application/json
 
 {
     "username1": "1232",
-    "password1": "234324"
+    "password1": "234324",
+    "registerCode": "234324"
 }
 
 ### 注册用户发送验证码
