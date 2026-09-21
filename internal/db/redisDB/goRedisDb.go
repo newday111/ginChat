@@ -2,6 +2,8 @@ package redisdb
 
 import (
 	"context"
+	"fmt"
+	"go_jichu/conf"
 	"go_jichu/internal/utils"
 	"time"
 
@@ -10,26 +12,23 @@ import (
 
 var GlobalRdb redis.UniversalClient
 
-func InitRedisConn() error {
+func InitRedisConn(cfg *conf.ConfigStruct) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
+	fmt.Println(cfg.REDIS.RedisAddr)
 
-	isCluster := false // 用于切换集群或者单机使用
+	isCluster := cfg.REDIS.IsCluster // 用于切换集群或者单机使用
 	if isCluster {
 		GlobalRdb = redis.NewUniversalClient(&redis.UniversalOptions{
-			Addrs: []string{
-				"127.0.0.1:7000",
-				"127.0.0.1:7001",
-				"127.0.0.1:7002",
-			},
-			Password: "your_password", // 如果有密码
+			Addrs:    cfg.REDIS.RedisAddr,
+			Password: cfg.REDIS.Password, // 如果有密码
 		})
 		utils.AccessLog.Info("正在以【集群模式】链接Redis....")
 	} else {
 		GlobalRdb = redis.NewUniversalClient(&redis.UniversalOptions{
-			Addrs:    []string{"127.0.0.1:6379"},
-			Password: "123456",
-			DB:       0,
+			Addrs:    cfg.REDIS.RedisAddr,
+			Password: cfg.REDIS.Password,
+			DB:       cfg.REDIS.RedisDb,
 		})
 		utils.AccessLog.Info("正在以【单机模式】链接Redis....")
 	}
