@@ -2,8 +2,10 @@ package emialhandler
 
 import (
 	"fmt"
+	redisdb "go_jichu/internal/db/redisDB"
 	"go_jichu/internal/utils"
 	"go_jichu/internal/utils/response"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -49,6 +51,13 @@ func RegisterCodeHandler(c *gin.Context) {
 				zap.String("path", c.Request.URL.Path),
 				zap.String("register code email result", fmt.Sprintf("%s email send code success", registerCodeRep.Email)),
 			)
+			err = redisdb.GlobalRdb.Set(c, registerCodeRep.Email, registerCode, 1*time.Minute).Err()
+			if err != nil {
+				utils.ErrorLog.Error("redis storage register code failed",
+					zap.String("email", registerCodeRep.Email),
+					zap.Error(err),
+				)
+			}
 		}
 
 	})
