@@ -4,7 +4,17 @@ app:
 
 smtp:
   host: "smtp.qq.com"
-  port: 465
+  port: 587
   username: "1750930322@qq.com"
   password: ""
   from: "1750930322@qq.com"
+
+
+redis:
+  isCluster: false
+  password: "123456"
+  redisdb: 0
+  redisAddr:
+    - "127.0.0.1:6379"
+    # - "127.0.0.1:7278"    # 集群可以打开
+    # - "127.0.0.1:3489"    # 集群可以打开
