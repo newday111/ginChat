@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 )
 
@@ -26,6 +27,37 @@ func RegisterCodeHandler(c *gin.Context) {
 		)
 		response.Error(c, response.ParamErrorCode, "参数错误")
 		return
+	}
+
+	_, err = redisdb.GlobalRdb.Get(c, registerCodeRep.Email).Result()
+	if err == nil {
+		utils.AccessLog.Info("register verification code already exists",
+			zap.String("email", registerCodeRep.Email),
+		)
+		resisterExistsCode := map[string]interface{}{
+			"msg": "验证码还在生效期",
+		}
+		response.Success(c, resisterExistsCode)
+		return
+	}
+
+	if err != nil {
+		utils.ErrorLog.Error("redis get register verification code failed",
+			zap.String("email", registerCodeRep.Email),
+			zap.Error(err),
+		)
+		resisterExistsCode := map[string]interface{}{
+			"msg": "服务器错误,请稍后重试",
+		}
+		response.Success(c, resisterExistsCode)
+		return
+	}
+
+	if err != redis.Nil {
+		utils.ErrorLog.Error("register code get redis key error",
+			zap.String("failed", registerCodeRep.Email),
+			zap.Error(err),
+		)
 	}
 
 	registerCode, err := utils.GenerateRegisterCode()
