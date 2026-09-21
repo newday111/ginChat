@@ -18,7 +18,13 @@ type ConfigStruct struct {
 		Username string `yaml:"username"`
 		Password string `yaml:"password"`
 		From     string `yaml:"from"`
-	}
+	} `yaml:"smtp"`
+	REDIS struct {
+		IsCluster bool     `yaml:"iscluster"`
+		Password  string   `yaml:"password"`
+		RedisDb   int      `yaml:"redisdb"`
+		RedisAddr []string `yaml:"redisAddr"`
+	} `yaml:"redis"`
 }
 
 func LoadConfig(configFilePath string) (*ConfigStruct, error) {
