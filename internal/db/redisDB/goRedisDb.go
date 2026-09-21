@@ -2,7 +2,6 @@ package redisdb
 
 import (
 	"context"
-	"fmt"
 	"go_jichu/conf"
 	"go_jichu/internal/utils"
 	"time"
@@ -15,7 +14,6 @@ var GlobalRdb redis.UniversalClient
 func InitRedisConn(cfg *conf.ConfigStruct) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	fmt.Println(cfg.REDIS.RedisAddr)
 
 	isCluster := cfg.REDIS.IsCluster // 用于切换集群或者单机使用
 	if isCluster {
