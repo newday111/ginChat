@@ -4,11 +4,13 @@ import (
 	"go_jichu/conf"
 	inithandle "go_jichu/initHandle"
 
+	redisdb "go_jichu/internal/db/redisDB"
 	"go_jichu/internal/middleware"
 	"go_jichu/internal/routers"
 	utils "go_jichu/internal/utils"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -31,11 +33,22 @@ func main() {
 	utils.InitWorkerPool(10, 1000)
 	utils.InitEmailConfig(cfg)
 
+	// 初始化redis链接
+	err = redisdb.InitRedisConn()
+	if err != nil {
+		utils.AccessLog.Error("init redis connection failed",
+			zap.String("redis connection", "failed"),
+		)
+		return
+	}
+
 	// 初始化gin环境
 	inithandle.InitGinModel(cfg)
 
 	// 可以区分线上或者是线下环境
 	server := gin.New()
+	server.SetTrustedProxies([]string{"127.0.0.1"})
+
 	server.Use(
 		middleware.LoggerMiddleware(),
 		middleware.RecoveryMiddleware(),
