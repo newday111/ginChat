@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"go_jichu/conf"
 	"os"
 	"time"
@@ -18,7 +17,7 @@ var (
 
 func InitLogger(cfg *conf.ConfigStruct) error {
 	// 创建 logs 目录
-	fmt.Println(cfg.App.LogPath)
+
 	if err := os.MkdirAll(cfg.App.LogPath, 0755); err != nil {
 		return err
 	}
@@ -52,6 +51,9 @@ func InitLogger(cfg *conf.ConfigStruct) error {
 	// 时间格式
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 
+	//	日志文件
+	encoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
+
 	encoder := zapcore.NewConsoleEncoder(encoderConfig)
 
 	// Access Logger
@@ -61,7 +63,7 @@ func InitLogger(cfg *conf.ConfigStruct) error {
 		zap.InfoLevel,
 	)
 
-	AccessLog = zap.New(accessCore)
+	AccessLog = zap.New(accessCore, zap.AddCaller())
 
 	// Error Logger
 	errorCore := zapcore.NewCore(
@@ -70,7 +72,7 @@ func InitLogger(cfg *conf.ConfigStruct) error {
 		zap.ErrorLevel,
 	)
 
-	ErrorLog = zap.New(errorCore)
+	ErrorLog = zap.New(errorCore, zap.AddCaller())
 
 	return nil
 }
