@@ -58,14 +58,24 @@ func RegisterCodeHandler(c *gin.Context) {
 			zap.String("failed", registerCodeRep.Email),
 			zap.Error(err),
 		)
+		resisterExistsCode := map[string]interface{}{
+			"msg": "服务器错误,请稍后重试",
+		}
+		response.Success(c, resisterExistsCode)
+		return
 	}
 
 	registerCode, err := utils.GenerateRegisterCode()
 	if err != nil {
-		utils.AccessLog.Warn("create register code failed error",
+		utils.ErrorLog.Error("create register code failed error",
 			zap.String("path", c.Request.URL.Path),
 			zap.Error(err),
 		)
+		resisterExistsCode := map[string]interface{}{
+			"msg": "服务器错误,请稍后重试",
+		}
+		response.Success(c, resisterExistsCode)
+		return
 	}
 
 	//	进行go协程的验证码发送
