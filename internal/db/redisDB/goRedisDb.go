@@ -37,5 +37,6 @@ func InitRedisConn() error {
 	if err := GlobalRdb.Ping(ctx).Err(); err != nil {
 		return err
 	}
+	utils.AccessLog.Info("redis connection start success!!!")
 	return nil
 }
