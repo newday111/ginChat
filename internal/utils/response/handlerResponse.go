@@ -7,9 +7,11 @@ import (
 )
 
 const (
-	SuccessCode     = 0
-	ParamErrorCode  = 10001
-	ServerErrorCode = 50000
+	SuccessCode                     = 0
+	ParamErrorCode                  = 10001
+	RegisterVerificationCode        = 10002
+	RegisterVerificationCodeNotSame = 10003
+	ServerErrorCode                 = 50000
 )
 
 type Response struct {
