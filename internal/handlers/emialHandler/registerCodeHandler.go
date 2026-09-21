@@ -41,6 +41,7 @@ func RegisterCodeHandler(c *gin.Context) {
 		if err != nil {
 			utils.AccessLog.Error("send register email result message: ",
 				zap.String("path", c.Request.URL.Path),
+				zap.String("register email", registerCodeRep.Email),
 				zap.Error(err),
 			)
 		} else {
@@ -52,6 +53,10 @@ func RegisterCodeHandler(c *gin.Context) {
 
 	})
 
-	response.Success(c, "")
+	sendEmailData := map[string]interface{}{
+		"msg": "注册验证码稍后发送至邮箱,请注意查收",
+	}
+
+	response.Success(c, sendEmailData)
 
 }
