@@ -42,15 +42,17 @@ func main() {
 			zap.Error(err))
 		return
 	}
+	utils.AccessLog.Info("redis init connection", zap.String("status", "success"))
 
 	//	初始化mysql连接
-	err = mysqldb.InitMySQL()
+	err = mysqldb.InitMySQL(cfg)
 	if err != nil {
 		utils.ErrorLog.Error("init mysql connection failed",
 			zap.String("mysql connection", "failed"),
 			zap.Error(err))
 		return
 	}
+	utils.AccessLog.Info("mysql init connection", zap.String("status", "success"))
 
 	// 初始化gin环境
 	inithandle.InitGinModel(cfg)
