@@ -4,6 +4,7 @@ import (
 	"go_jichu/conf"
 	inithandle "go_jichu/initHandle"
 
+	mysqldb "go_jichu/internal/db/mysqlDB"
 	redisdb "go_jichu/internal/db/redisDB"
 	"go_jichu/internal/middleware"
 	"go_jichu/internal/routers"
@@ -38,7 +39,16 @@ func main() {
 	if err != nil {
 		utils.ErrorLog.Error("init redis connection failed",
 			zap.String("redis connection", "failed"),
-		)
+			zap.Error(err))
+		return
+	}
+
+	//	初始化mysql连接
+	err = mysqldb.InitMySQL()
+	if err != nil {
+		utils.ErrorLog.Error("init mysql connection failed",
+			zap.String("mysql connection", "failed"),
+			zap.Error(err))
 		return
 	}
 
