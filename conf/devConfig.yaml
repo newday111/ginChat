@@ -18,3 +18,9 @@ redis:
     - "127.0.0.1:6379"
     # - "127.0.0.1:7278"    # 集群可以打开
     # - "127.0.0.1:3489"    # 集群可以打开
+
+mysql:
+  SetMaxIdleConns: 20
+  SetMaxOpenConns: 100
+  SetConnMaxLifetime: 3600
+  SetConnMaxIdleTime: 1800
