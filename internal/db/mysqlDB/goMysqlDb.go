@@ -1,6 +1,7 @@
 package mysqldb
 
 import (
+	"go_jichu/conf"
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -11,7 +12,7 @@ import (
 
 var GlobalMDB *gorm.DB
 
-func InitMySQL() error {
+func InitMySQL(cfg *conf.ConfigStruct) error {
 	// 1. 现阶段：主库和从库都指向同一个 MySQL 实例
 	// 未来扩展主从时，只需把 Replicas 换成从库的 DSN 即可
 	dsnMaster := "root:123456@tcp(127.0.0.1:3306)/my_db?charset=utf8mb4&parseTime=True&loc=Local"
@@ -33,10 +34,10 @@ func InitMySQL() error {
 			Replicas: []gorm.Dialector{mysql.Open(dsnSlave)},  // 读库（从库）集群
 			Policy:   dbresolver.RandomPolicy{},               // 多从库时的负载均衡策略（随机）
 		}).
-			SetMaxIdleConns(20).                  // 连接池最大空闲连接数
-			SetMaxOpenConns(100).                 // 连接池最大打开连接数
-			SetConnMaxLifetime(time.Hour).        // 连接可复用的最大时间
-			SetConnMaxIdleTime(30 * time.Minute), // 连接最大空闲时间
+			SetMaxIdleConns(cfg.MYSQL.SetMaxIdleConns).                                    // 连接池最大空闲连接数
+			SetMaxOpenConns(cfg.MYSQL.SetMaxOpenConns).                                    // 连接池最大打开连接数
+			SetConnMaxLifetime(time.Duration(cfg.MYSQL.SetConnMaxLifetime) * time.Second). // 连接可复用的最大时间
+			SetConnMaxIdleTime(time.Duration(cfg.MYSQL.SetConnMaxIdleTime) * time.Second), // 连接最大空闲时间
 	)
 	if err != nil {
 		return err
