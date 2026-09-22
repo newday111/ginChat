@@ -25,6 +25,12 @@ type ConfigStruct struct {
 		RedisDb   int      `yaml:"redisdb"`
 		RedisAddr []string `yaml:"redisAddr"`
 	} `yaml:"redis"`
+	MYSQL struct {
+		SetMaxIdleConns    int `yaml:"SetMaxIdleConns"`
+		SetMaxOpenConns    int `yaml:"SetMaxOpenConns"`
+		SetConnMaxLifetime int `yaml:"SetConnMaxLifetime"`
+		SetConnMaxIdleTime int `yaml:"SetConnMaxIdleTime"`
+	}
 }
 
 func LoadConfig(configFilePath string) (*ConfigStruct, error) {
