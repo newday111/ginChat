@@ -2,6 +2,7 @@ package userhandler
 
 import (
 	redisdb "go_jichu/internal/db/redisDB"
+	"go_jichu/internal/model"
 	"go_jichu/internal/utils/response"
 
 	utils "go_jichu/internal/utils"
@@ -11,7 +12,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type registerUserStruct struct {
+type RegisterUserStruct struct {
 	Username     string `json:"username" binding:"required"`
 	Password     string `json:"password" binding:"required"`
 	Email        string `json:"email" binding:"required,email"`
@@ -19,7 +20,7 @@ type registerUserStruct struct {
 }
 
 func RegisterHandler(c *gin.Context) {
-	var registerReq registerUserStruct
+	var registerReq RegisterUserStruct
 	err := c.ShouldBindJSON(&registerReq)
 	if err != nil {
 		utils.AccessLog.Warn("register function params error",
@@ -54,5 +55,9 @@ func RegisterHandler(c *gin.Context) {
 		response.Error(c, response.RegisterVerificationCodeNotSame, "验证码不正确")
 		return
 	}
+
+	registerReq.Password, err = utils.HashPassword(registerReq.Password)
+
+	model.CreateRegisterUser(registerReq)
 
 }
