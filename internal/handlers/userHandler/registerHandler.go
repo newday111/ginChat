@@ -58,6 +58,21 @@ func RegisterHandler(c *gin.Context) {
 
 	registerReq.Password, err = utils.HashPassword(registerReq.Password)
 
-	model.CreateRegisterUser(registerReq)
+	_, err = model.CreateRegisterUser(&model.User{
+		Email:    registerReq.Email,
+		Password: registerReq.Password,
+	})
+	if err != nil {
+		utils.ErrorLog.Error("register user failed",
+			zap.String("email", registerReq.Email),
+			zap.Error(err),
+		)
+		response.Error(c, response.RegisterUserFailedCode, "注册用户失败,请稍后重试")
+		return
+	}
 
+	utils.AccessLog.Info("register user success",
+		zap.String("email", registerReq.Email))
+
+	response.Success(c)
 }
