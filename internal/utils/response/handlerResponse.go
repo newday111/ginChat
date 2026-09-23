@@ -15,6 +15,8 @@ const (
 	RegisterUserFailedCode              = 10004
 	RegisterVerificationCodeEffective   = 10005
 	RegisterVerificationCodeSendSuccess = 10006
+	QueryLoginUserInfoFailedCode        = 10007
+	LoginPassWordInconsistentCode       = 10008
 	ServerErrorCode                     = 50000
 )
 
@@ -26,6 +28,8 @@ var ResponseMessage = map[int]string{
 	RegisterUserFailedCode:              "用户注册失败,请稍后重试",
 	RegisterVerificationCodeEffective:   "验证码生效中",
 	RegisterVerificationCodeSendSuccess: "验证码已发送至邮箱,请注意查收",
+	QueryLoginUserInfoFailedCode:        "查询登陆用户信息失败,请稍后重试",
+	LoginPassWordInconsistentCode:       "密码错误,请重试",
 	ServerErrorCode:                     "服务器错误请稍后重试",
 }
 
