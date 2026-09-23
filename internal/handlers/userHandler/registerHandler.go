@@ -27,7 +27,7 @@ func RegisterHandler(c *gin.Context) {
 			zap.String("path", c.Request.URL.Path),
 			zap.Error(err),
 		)
-		response.Error(c, response.ParamErrorCode, "参数错误")
+		response.Error(c, response.ParamErrorCode, response.ResponseMessage[response.ParamErrorCode])
 		return
 	}
 
@@ -37,7 +37,7 @@ func RegisterHandler(c *gin.Context) {
 		utils.ErrorLog.Warn("register verification code invalid",
 			zap.String("email", registerReq.Email),
 			zap.Error(err))
-		response.Error(c, response.RegisterVerificationCode, "验证码已失效")
+		response.Error(c, response.RegisterVerificationCode, response.ResponseMessage[response.RegisterVerificationCode])
 		return
 	}
 
@@ -45,14 +45,14 @@ func RegisterHandler(c *gin.Context) {
 		utils.ErrorLog.Warn("register function server error",
 			zap.String("email", registerReq.Email),
 			zap.Error(err))
-		response.Error(c, response.ServerErrorCode, "服务器错误请稍后重试")
+		response.Error(c, response.ServerErrorCode, response.ResponseMessage[response.ServerErrorCode])
 		return
 	}
 
 	if registerCode != registerReq.RegisterCode {
 		utils.ErrorLog.Error("register verification code error",
 			zap.String("对比注册验证码", "注册验证码不一致"))
-		response.Error(c, response.RegisterVerificationCodeNotSame, "验证码不正确")
+		response.Error(c, response.RegisterVerificationCodeNotSame, response.ResponseMessage[response.RegisterVerificationCodeNotSame])
 		return
 	}
 
@@ -67,14 +67,12 @@ func RegisterHandler(c *gin.Context) {
 			zap.String("email", registerReq.Email),
 			zap.Error(err),
 		)
-		response.Error(c, response.RegisterUserFailedCode, "注册用户失败,请稍后重试")
+		response.Error(c, response.RegisterUserFailedCode, response.ResponseMessage[response.RegisterUserFailedCode])
 		return
 	}
 
 	utils.AccessLog.Info("register user success",
 		zap.String("email", registerReq.Email))
 
-	regsterSuccessMes := make(map[string]interface{})
-	regsterSuccessMes["message"] = "register success"
-	response.Success(c, regsterSuccessMes)
+	response.Success(c, response.RegisterUserSuccessCode, response.ResponseMessage[response.RegisterUserSuccessCode], "")
 }
