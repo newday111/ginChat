@@ -11,6 +11,7 @@ const (
 	ParamErrorCode                  = 10001
 	RegisterVerificationCode        = 10002
 	RegisterVerificationCodeNotSame = 10003
+	RegisterUserFailedCode          = 10004
 	ServerErrorCode                 = 50000
 )
 
