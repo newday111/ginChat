@@ -67,6 +67,6 @@ func main() {
 	)
 
 	routers.RegisterAllRouter(server)
-
+	// fmt.Sprintf(":%s", cfg.App.Port)
 	server.Run(":8081")
 }

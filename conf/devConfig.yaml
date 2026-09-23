@@ -1,6 +1,7 @@
 app:
   env: dev
   logPath: D:\\log
+  port: 8081
 
 smtp:
   host: "smtp.qq.com"

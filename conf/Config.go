@@ -10,6 +10,7 @@ type ConfigStruct struct {
 	App struct {
 		Env     string `yaml:"env"`
 		LogPath string `yaml:"logPath"`
+		Port    string `yaml:"port"`
 	} `yaml:"app"`
 
 	SMTP struct {
