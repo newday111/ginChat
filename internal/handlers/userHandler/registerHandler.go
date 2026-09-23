@@ -74,5 +74,7 @@ func RegisterHandler(c *gin.Context) {
 	utils.AccessLog.Info("register user success",
 		zap.String("email", registerReq.Email))
 
-	response.Success(c)
+	regsterSuccessMes := make(map[string]interface{})
+	regsterSuccessMes["message"] = "register success"
+	response.Success(c, regsterSuccessMes)
 }
