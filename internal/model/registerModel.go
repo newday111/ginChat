@@ -11,6 +11,11 @@ type User struct {
 	Password string `gorm:"size:255;not null" json:"-"`
 }
 
+type LoginUser struct {
+	Email    string `gorm:"column:email"`
+	Password string `gorm:"column:password"`
+}
+
 func CreateRegisterUser(user *User) (string, error) {
 	createRegisterUserMessage := ""
 	registerResult := mysqldb.GlobalMDB.Create(user)
@@ -22,4 +27,13 @@ func CreateRegisterUser(user *User) (string, error) {
 		return "", fmt.Errorf("create register user failed, RowsAffected: %d", registerResult.RowsAffected)
 	}
 	return "", nil
+}
+
+func QueryUserInfoToEmail(loginU *LoginUser) (*LoginUser, error) {
+	var loginUser LoginUser
+	err := mysqldb.GlobalMDB.Table("users").Where("email = ?", loginU.Email).First(&loginUser).Error
+	if err != nil {
+		return nil, err
+	}
+	return &loginUser, nil
 }
